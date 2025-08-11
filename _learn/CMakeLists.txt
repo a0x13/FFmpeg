@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.12)
 project(ffinfo_example C CXX)
 
 set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_BUILD_TYPE Debug)
 
 # 指定你自己编译 FFmpeg 时的安装目录
 set(FFMPEG_ROOT "${CMAKE_SOURCE_DIR}/../build")

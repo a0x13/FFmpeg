@@ -10,7 +10,7 @@
         "request": "launch",
         "program": "${workspaceFolder}/_learn/build/ffinfo",
         "args": [
-            "./dinosaur.mp4"
+            "./video.mp4"
         ],
         "stopAtEntry": false,
         "cwd": "${workspaceFolder}/_learn/build",
