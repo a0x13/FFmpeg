@@ -5,19 +5,20 @@ extern "C" {
 }
 #include <iostream>
 #include <fmt/core.h>
+#include <CLI/CLI.hpp>
+#include <string>
 
 int main(int argc, char* argv[]) {
-    if (argc < 2) {
-        fmt::print("Usage: ./ffinfo <input>\n");
-        return -1;
-    }
+    std::string video_name;
+    CLI::App app("ffmpeg demo");
+    app.add_option("video", video_name, "Video Name")->required();
+    CLI11_PARSE(app, argc, argv);
 
-    const char* filename = argv[1];
     avformat_network_init();
 
     AVFormatContext* fmt_ctx = nullptr;
-    if (avformat_open_input(&fmt_ctx, filename, nullptr, nullptr) < 0) {
-        fmt::print("Cannot open input file: {}\n", filename);
+    if (avformat_open_input(&fmt_ctx, video_name.c_str(), nullptr, nullptr) < 0) {
+        fmt::print("Cannot open input file: {}\n", video_name);
         return -1;
     }
 
@@ -27,7 +28,13 @@ int main(int argc, char* argv[]) {
         return -1;
     }
 
-    av_dump_format(fmt_ctx, 0, filename, 0);
+    
+    fmt::print("--------------------------------------------------------\n");
+    fmt::print("format: {}, dur: {}\n", fmt_ctx->iformat->long_name, fmt_ctx->duration);
+    
+    fmt::print("--------------------------------------------------------\n");
+
+    av_dump_format(fmt_ctx, 0, video_name.c_str(), 0);
 
     avformat_close_input(&fmt_ctx);
     return 0;
